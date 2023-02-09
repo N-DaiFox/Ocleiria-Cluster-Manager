@@ -27,11 +27,11 @@ class NotificationsCog(commands.Cog):
         # construct error embed
         embed = discord.Embed()
         # set it's title
-        embed.title = f"Channel {channelName} already receives notifications!"
+        embed.title = f"Salon {channelName} reçois déjà des notifications!"
         # add some more info
         embed.add_field(
-            name=f"Use `{prefix}unwatch` command to no longer receive notifications.",
-            value=f"You are receiving notifications for `{await stripVersion(server)}`.",
+            name=f"Utilise la commande `{prefix}unwatch` pour ne plus recevoir de notification.",
+            value=f"Tu recois une notification pour `{await stripVersion(server)}`.",
         )
         # set color of embed
         embed.color = randomColor()
@@ -44,11 +44,11 @@ class NotificationsCog(commands.Cog):
         # construct error embed
         embed = discord.Embed()
         # set it's title
-        embed.title = "Success!"
+        embed.title = "Succès!"
         # add info about notification
         embed.add_field(
-            name=f"You are now receiving notification for `{await stripVersion(server)}`",
-            value="Have a nice day!",
+            name=f"Vous recevez maintenant une notification pour `{await stripVersion(server)}`",
+            value="Bonne journée!",
         )
         # set it's color to green
         embed.color = discord.Colour.green()
@@ -60,27 +60,27 @@ class NotificationsCog(commands.Cog):
         # if both
         if perms.send_messages and perms.embed_links:
             # set it to both
-            missing = "send messages and embed links"
+            missing = "Envoyer des messages et intégrer des liens"
         # if only messages
         elif perms.send_messages:
             # set it
-            missing = "send messages"
+            missing = "Envoyer des messages"
         # if only links
         elif perms.embed_links:
             # set it
-            missing = "embed links"
+            missing = "intégrer des liens"
         # default
         else:
             # both
-            missing = "send message and embed links"
+            missing = "Envoyer des messages et intégrer des liens"
         # create embed
         embed = discord.Embed()
         # set color
         embed.color = discord.Colour.red()
         # add info
         embed.add_field(
-            name="I have insufficient permissions in that channel!",
-            value=f"I need `{missing}` in {channel.mention} to send notifications there!",
+            name="J'ai des autorisations insuffisantes dans ce canal!",
+            value=f"J'ai besoin `{missing}` sur {channel.mention} pour y envoyer des notifications!",
         )
         # and sent it
         await ctx.send(embed=embed)
@@ -107,8 +107,8 @@ class NotificationsCog(commands.Cog):
         embed = discord.Embed()
         # add info about notification
         embed.add_field(
-            name=f"You unsubscribed from notifications for `{await stripVersion(server)}` !",
-            value=f"From now on bot won't send notifications about `{await stripVersion(server)}` in {channel.mention}",
+            name=f"Vous vous êtes désinscrit des notifications pour `{await stripVersion(server)}` !",
+            value=f"À partir de maintenant, le bot n'enverra plus de notifications à propos de `{await stripVersion(server)}` in {channel.mention}",
         )
         # set it's color to green
         embed.color = discord.Colour.green()
@@ -119,8 +119,8 @@ class NotificationsCog(commands.Cog):
         embed = discord.Embed()
         # add info about notification
         embed.add_field(
-            name="You have no notifications for this channel !",
-            value=f"You have no notifications for {channel.mention}!",
+            name="Vous n'avez aucune notification pour ce salon !",
+            value=f"Vous n'avez aucune notification pour {channel.mention}!",
         )
         # set it's color to green
         embed.color = randomColor()
@@ -133,8 +133,8 @@ class NotificationsCog(commands.Cog):
         embed = discord.Embed()
         # add info about notification
         embed.add_field(
-            name=f"You have no notifications for `{await stripVersion(server)}` in this channel!",
-            value=f"You have no notifications for `{await stripVersion(server)}` in {channel.mention}!",
+            name=f"Vous n'avez aucune notification pour `{await stripVersion(server)}` in this channel!",
+            value=f"Vous n'avez aucune notification pour `{await stripVersion(server)}` in {channel.mention}!",
         )
         # set it's color to green
         embed.color = randomColor()
@@ -148,13 +148,13 @@ class NotificationsCog(commands.Cog):
         external_emojis=True,
     )
     @commands.command(
-        brief="Setup notification. Bot will send notification each time server goes up or down."
+        brief="Avis de configuration. Le bot enverra une notification chaque fois que le serveur s'allume ou s'éteind."
     )
     async def watch(
         self,
         ctx,
         discord_channel: discord.TextChannel = commands.Option(
-            None, description="Channel to send notification to"
+            None, description="Salon ou envoyer la notification"
         ),
     ):
         # if no channel is supplied
@@ -163,7 +163,7 @@ class NotificationsCog(commands.Cog):
         if discord_channel == None:
             # send warning message
             await ctx.send(
-                "No optional channel provided. Notifications will be sent to this channel."
+                "Aucun salon optionnel fourni. Les notifications seront envoyées à ce salon."
             )
             # sent discord channel to current
             discord_channel = ctx.channel
@@ -235,18 +235,18 @@ class NotificationsCog(commands.Cog):
         manage_messages=True,
         external_emojis=True,
     )
-    @commands.command(brief="Stop notifications from appearing in a channel")
+    @commands.command(brief="Stop l'affichage des notifications dans un canal")
     async def unwatch(
         self,
         ctx,
         discord_channel: discord.TextChannel = commands.Option(
-            None, description="Channel to remove notifications from"
+            None, description="Salut dont vous souhaitez supprimer les notifications"
         ),
     ):
         if discord_channel == None:
             # send warning message
             await ctx.send(
-                "No optional channel provided. Notifications will be deleted from this channel."
+                "Aucun salon optionnel fourni. Les notifications seront supprimées de ce salon."
             )
             # set discord channel to current
             discord_channel = ctx.channel

@@ -7,7 +7,7 @@ import time
 
 class AutoMessagesPlugin:
     def __init__(self, updater) -> None:
-        print("Initing auto messages plugin!")
+        print("Initiation du plugin d'auto messages!")
         # if true than the plugin will modify the record
         # for DB so all mutable plugins will be ran one-by-one and not concurrently
         # (cuz I don't want to mess with syncing of all changes)
@@ -71,26 +71,26 @@ class AutoMessagesPlugin:
                 timevalue += f"{player.time}\n"
             # TODO: add check for strings larger than Discord limit
             # then add these variables to embed
-            embed.add_field(name="Name", value=nameValue, inline=True)
-            embed.add_field(name="Time", value=timevalue, inline=True)
+            embed.add_field(name="Nom", value=nameValue, inline=True)
+            embed.add_field(name="Temps", value=timevalue, inline=True)
         # if there is no players
         else:
             # add this info into embed
-            embed.add_field(name="No one is on the server", value="\u200B", inline=True)
+            embed.add_field(name="Personne n'est sur ce serveur", value="\u200B", inline=True)
         # if server is online set status to online string
         # else set to offline string
         status = (
-            ":green_circle: Online" if server[0][6] == 1 else ":red_circle: Offline"
+            ":green_circle: En ligne " if server[0][6] == 1 else ":red_circle: Hors ligne"
         )
         # add other info about server
-        embed.add_field(name="Status", value=status, inline=False)
+        embed.add_field(name="Statut", value=status, inline=False)
         embed.add_field(name="Ping", value=f"{serverObj.ping} ms", inline=True)
         embed.add_field(name="Map", value=serverObj.map, inline=True)
         embed.add_field(name="IP", value=f"{serverObj.ip}", inline=True)
         # get current time
         curTime = datetime.datetime.utcnow()
         # set footer
-        embed.set_footer(text=f'Updated: {curTime.strftime("%m.%d at %H:%M")} (UTC)')
+        embed.set_footer(text=f'Mis à jour {curTime.strftime("%m.%d à %H:%M")} (UTC)')
         # paint in random color
         embed.color = randomColor()
         # return embed
@@ -192,7 +192,7 @@ class AutoMessagesPlugin:
             # if any other error
             except BaseException as e:
                 asyncio.create_task(
-                    sendToMe(f"Error in auto messages: {e}", self.bot, True)
+                    sendToMe(f"Erreur dans auto messages: {e}", self.bot, True)
                 )
         # delete any defective records from db
         await self.deleteDefective()
@@ -200,7 +200,7 @@ class AutoMessagesPlugin:
         end = time.perf_counter()
         # send stats
         await sendToMe(
-            f"Updated {self.updatedMessages}/{messages.__len__()} auto messages!\nIt took: {end - start:.4} sec.\n{self.defective}",
+            f"Mise à jour de: {self.updatedMessages}/{messages.__len__()} auto messages!\nIl a fallu: {end - start:.4} sec.\n{self.defective}",
             self.bot,
         )
 
@@ -212,7 +212,7 @@ class AutoMessagesPlugin:
             pass  # Task cancellation should not be logged as an error.
         except Exception as e:
             asyncio.create_task(
-                sendToMe(f"unhandled {e} in automessage task", self.bot, True)
+                sendToMe(f"non traité {e} dans automessages ", self.bot, True)
             )
 
     # called on each iteration of main loop

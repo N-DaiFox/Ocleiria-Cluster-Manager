@@ -52,24 +52,24 @@ class ServerCmd(commands.Cog):
         # if server is offline or there is no players on it
         if not online or server.online == 0 or len(playersList) <= 0:
             # set defaults
-            playersValue = "No one is on the server"
+            playersValue = "Personne n'est sur le serveur"
             timeValue = "\u200B"
         # if server is online set variable to green circle
         # else set it to red circle
         status = ":green_circle:" if online else ":red_circle:"
         # make first embed
         emb1 = discord.Embed(title=name + " " + status, url=battleUrl, color=color)
-        emb1.add_field(name="Name", value=playersValue)
-        emb1.add_field(name="Time played", value=timeValue)
+        emb1.add_field(name="Nom", value=playersValue)
+        emb1.add_field(name="Temps joué", value=timeValue)
         # if server offline override online players count
         server.online = server.online if online else 0
         emb2 = discord.Embed(color=color, timestamp=time.utcnow())  # second embed
         emb2.set_footer(
-            text=f"Requested by {ctx.author.name} • Bot {self.cfg.version}",
+            text=f"Demandé par {ctx.author.name} • Bot {self.cfg.version}",
             icon_url=ctx.author.display_avatar,
         )
         emb2.add_field(name="IP:", value=server.ip)
-        emb2.add_field(name="Players:", value=f"{server.online}/{server.maxPlayers}")
+        emb2.add_field(name="Joueurs:", value=f"{server.online}/{server.maxPlayers}")
         emb2.add_field(name="Map:", value=server.map)
         emb2.add_field(name="Ping:", value=f"{server.ping} ms.")
         await ctx.send(embeds=[emb1, emb2])
@@ -84,32 +84,32 @@ class ServerCmd(commands.Cog):
     @commands.group(
         invoke_without_command=True,
         case_insensitive=True,
-        brief="Base command for many features of the bot",
+        brief="Commande de base pour de nombreuses fonctionnalités du bot",
     )
     @commands.cooldown(10, 60, type=commands.BucketType.user)
     async def server(self, ctx):
-        embed = discord.Embed(title="No subcommand selected!")
+        embed = discord.Embed(title="Aucune sous-commande sélectionnée !")
         embed.add_field(
             name="Possible subcommands:", value="```\nadd\ndelete\ninfo\nalias```"
         )
         embed.add_field(
-            name="Example of `add` subcommand:", value=f"`{ctx.prefix}server add`"
+            name="Exemple de la sous-commande `add` :", value=f"`{ctx.prefix}server add`"
         )
         await ctx.send(embed=embed)
 
-    @server.command(brief="Add an ARK server to your list")
+    @server.command(brief="Ajoutez un serveur ARK à votre liste")
     async def add(
         self,
         ctx,
         server_ip: str = commands.Option(
-            description="IP:Port of a server you want to add"
+            description="IP:Port d'un serveur que vous voulez ajouter"
         ),
     ) -> None:
         # if ip isn't correct
         if not IpCheck(server_ip):
             # crete embed
             embed = discord.Embed(
-                color=discord.Colour.red(), title="Something is wring with ip!"
+                color=discord.Colour.red(), title="Quelque chose se tord avec ip!"
             )
             # and send it
             await ctx.send(embed=embed)
@@ -153,7 +153,7 @@ class ServerCmd(commands.Cog):
             if id in added_servers:
                 # create
                 embed = discord.Embed(
-                    title="Server already added!", color=discord.Color.red()
+                    title="Serveur déjà ajouté !", color=discord.Color.red()
                 )
                 # and send embed
                 await ctx.send(embed=embed)
@@ -171,11 +171,11 @@ class ServerCmd(commands.Cog):
             (json.dumps(updated_servers), ctx.guild.id),
         )
         # create
-        embed = discord.Embed(title="Done!", color=discord.Color.green())
+        embed = discord.Embed(title="C'est fait !", color=discord.Color.green())
         # and send embed
         await ctx.send(embed=embed)
 
-    @server.command(brief="Get info about an ARK server")
+    @server.command(brief="Obtenir des informations sur un serveur ARK")
     async def info(self, ctx) -> None:
         selector = Selector(ctx, ctx.bot, c.Translation())
         server = await selector.select()
@@ -190,7 +190,7 @@ class ServerCmd(commands.Cog):
         # send server info
         await self.serverInfo(server, ctx)
 
-    @server.command(brief="Delete an ARK server from your list")
+    @server.command(brief="Supprimer un serveur ARK de votre liste")
     async def delete(self, ctx) -> None:
         # create selector class
         selector = Selector(ctx, ctx.bot, c.Translation())
@@ -250,28 +250,28 @@ class ServerCmd(commands.Cog):
             ),
         )
         # create embed
-        embed = discord.Embed(title="Done!", color=discord.Color.green())
+        embed = discord.Embed(title="C'est fait !", color=discord.Color.green())
         # and send it
         await ctx.send(embed=embed)
 
     @server.group(
-        brief="Base command for server aliases",
+        brief="Commande de base pour les alias de serveur",
         invoke_without_command=True,
         case_insensitive=True,
     )
     async def alias(self, ctx) -> None:
-        embed = discord.Embed(title="No subcommand selected!")
-        embed.add_field(name="Possible subcommands:", value="```\nadd\ndelete\nlist```")
+        embed = discord.Embed(title="Aucune sous-commande sélectionnée !")
+        embed.add_field(name="Sous-commandes possibles :", value="```\nadd\ndelete\nlist```")
         embed.add_field(
-            name="Example of `add` subcommand:", value=f"`{ctx.prefix}server alias add`"
+            name="Exemple de la sous-commande `add` :", value=f"`{ctx.prefix}server alias add`"
         )
         await ctx.send(embed=embed)
 
-    @alias.command(brief="Add an alias for your ARK server", name="add")
+    @alias.command(brief="Ajouter un alias pour votre serveur ARK", name="add")
     async def add_alias(
         self,
         ctx,
-        alias: str = commands.Option(description="Alias to assign to a server"),
+        alias: str = commands.Option(description="Alias à attribuer à un serveur"),
     ) -> None:
         # create selector
         selector = Selector(ctx, ctx.bot, c.Translation())
@@ -303,11 +303,11 @@ class ServerCmd(commands.Cog):
                 # change existing alias
                 aliases_dec[server_index + 1] = alias
                 # create embed
-                embed = discord.Embed(title="Done!", color=discord.Color.green())
+                embed = discord.Embed(title="C'est fait !", color=discord.Color.green())
                 # add field
                 embed.add_field(
-                    name=f"Changed alias for `{server_obj.name}`",
-                    value=f"from `{old_alias}` to `{alias}`",
+                    name=f"Changement d'alias pour `{server_obj.name}`",
+                    value=f"de `{old_alias}` à `{alias}`",
                 )
             # if we need to add it
             else:
@@ -316,22 +316,22 @@ class ServerCmd(commands.Cog):
                 # add alias itself
                 aliases_dec.append(alias)
                 # create embed
-                embed = discord.Embed(title="Done!", color=discord.Color.green())
+                embed = discord.Embed(title="C'est fait !", color=discord.Color.green())
                 # add field
                 embed.add_field(
-                    name=f"Added alias for `{server_obj.name}`",
-                    value=f"New alias is `{alias}`",
+                    name=f"Ajout d'un alias pour `{server_obj.name}`",
+                    value=f"Le nouvel alias est `{alias}`",
                 )
         # if we have no aliases
         else:
             # create alias record
             aliases_dec = [server_id, alias]
             # create embed
-            embed = discord.Embed(title="Done!", color=discord.Color.green())
+            embed = discord.Embed(title="C'est fait !", color=discord.Color.green())
             # add field
             embed.add_field(
-                name=f"Added alias for `{server_obj.name}`",
-                value=f"New alias is `{alias}`",
+                name=f"Ajout d'un alias pour `{server_obj.name}`",
+                value=f"Le nouvel alias est `{alias}`",
             )
         await makeAsyncRequest(
             "UPDATE settings SET Aliases=%s WHERE GuildId=%s",
@@ -339,7 +339,7 @@ class ServerCmd(commands.Cog):
         )
         await ctx.send(embed=embed)
 
-    @alias.command(brief="Delete an alias for your ARK server", name="delete")
+    @alias.command(brief="Supprimer un alias pour votre serveur ARK", name="delete")
     async def delete_alias(self, ctx) -> None:
         # create selector
         selector = Selector(ctx, ctx.bot, c.Translation())
@@ -381,7 +381,7 @@ class ServerCmd(commands.Cog):
                 embed = discord.Embed(title="Done!", color=discord.Color.green())
                 # add field to it
                 embed.add_field(
-                    name=f"Removed alias `{old_alias}` for",
+                    name=f"Suppression de l'alias `{old_alias}` pour",
                     value=f"`{server_obj.name}`",
                 )
                 # send it
@@ -391,7 +391,7 @@ class ServerCmd(commands.Cog):
             else:
                 # create embed
                 embed = discord.Embed(
-                    title="You have no alias for this server!",
+                    title="Vous n'avez pas d'alias pour ce serveur!",
                     color=discord.Color.red(),
                 )
                 # send it
@@ -400,14 +400,14 @@ class ServerCmd(commands.Cog):
         else:
             # create embed
             embed = discord.Embed(
-                title="You have no alias for this server!",
+                title="Vous n'avez pas d'alias pour ce serveur!",
                 color=discord.Color.red(),
             )
             # send it
             await ctx.send(embed=embed)
             return
 
-    @alias.command(brief="List aliases for your ARK servers")
+    @alias.command(brief="Liste des alias pour vos serveurs ARK")
     async def list(self, ctx) -> None:
         # get aliases from DB
         aliases = await makeAsyncRequest(
@@ -423,7 +423,7 @@ class ServerCmd(commands.Cog):
             else:
                 # create
                 embed = discord.Embed(
-                    title="No aliases added!", color=discord.Color.green()
+                    title="Aucun alias ajouté !", color=discord.Color.green()
                 )
                 # and send embed
                 await ctx.send(embed=embed)
@@ -432,13 +432,13 @@ class ServerCmd(commands.Cog):
         else:
             # create
             embed = discord.Embed(
-                title="No aliases added!", color=discord.Color.green()
+                title="Aucun alias ajouté !", color=discord.Color.green()
             )
             # and send embed
             await ctx.send(embed=embed)
             return
         # create base embed
-        embed = discord.Embed(title="Added aliases:")
+        embed = discord.Embed(title="Ajout d'alias :")
         embed.color = randomColor()
         number = 1
         # for each server id
@@ -453,7 +453,7 @@ class ServerCmd(commands.Cog):
             # get alias
             alias = aliases_dec[server_index + 1]
             # add field in embed
-            embed.add_field(name=f"{number}. Alias for {server_obj.name}:", value=alias)
+            embed.add_field(name=f"{number}. Alias pour {server_obj.name}:", value=alias)
         await ctx.send(embed=embed)
 
     @commands.bot_has_permissions(
@@ -463,16 +463,16 @@ class ServerCmd(commands.Cog):
         manage_messages=True,
         external_emojis=True,
     )
-    @commands.command(brief="This command will try to fix IP address of a server")
-    async def ipfix(self, ctx, ip: str = commands.Option(description="IP to fix")):
+    @commands.command(brief="Cette commande va essayer de fixer l'adresse IP d'un serveur")
+    async def ipfix(self, ctx, ip: str = commands.Option(description="IP à fixer")):
         await ctx.defer()  # it will be long
         start = time.perf_counter()  # start timer
         if ip is None:  # if no additional args
-            embed = discord.Embed(title="No IP!")
+            embed = discord.Embed(title="Pas d'IP !")
             await ctx.send(embed=embed)
             return
         if IpCheck(ip, checkPort=False) != True:  # IP check
-            embed = discord.Embed(title="Something is wrong with **IP**!")
+            embed = discord.Embed(title="Quelque chose ne va pas avec **IP**!")
             await ctx.send(embed=embed)
             return
         splitted = ip.split(":")  # split the ip to port and IP
@@ -496,12 +496,12 @@ List of detected servers on that ip by steam:
             # also I can integrate this in server adding process if we know game port (but it still won't help if we don't know any port of the server so I won't depricate this command)
             # if request is successful and we have more that 0 servers
             if (
-                bool(text["response"]["success"])
-                and text["response"]["servers"].__len__() > 0
+                bool(text["réponse"]["succès"])
+                and text["réponse"]["serveurs"].__len__() > 0
             ):
                 i = 1
                 # for each server in response
-                for server in text["response"]["servers"]:
+                for server in text["réponse"]["serveurs"]:
                     ip = server["addr"]  # get ip
                     # try to search for it in DB
                     search = await makeAsyncRequest(
@@ -537,10 +537,10 @@ List of detected servers on that ip by steam:
                             message += f"{i}. {discord.utils.escape_mentions(ip)} - {serverObj.name} (Offline) \n"
             else:  # we have no games detected by steam
                 # send error message
-                await ctx.send("No games found on that IP by steam.")
+                await ctx.send("Aucun jeu trouvé sur cette IP par steam.")
                 return
             message += (
-                "Use those ip to add server to bot!"  # append last line to the message
+                "Utilisez ces ip pour ajouter le serveur au bot !"  # append last line to the message
             )
 
             if message.__len__() >= 2000:  # junk code to send smth over 2k
@@ -552,7 +552,7 @@ List of detected servers on that ip by steam:
             end = time.perf_counter()  # end timer
             # debug
             await sendToMe(
-                f"/ipfix exec time: {end - start:.4} sec.\n There was {i-1} servers to fetch",
+                f"/ipfix exec time: {end - start:.4} sec.\n Il y avait {i-1} des serveurs pour récupérer",
                 self.bot,
             )
 

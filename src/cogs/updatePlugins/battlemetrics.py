@@ -7,7 +7,7 @@ import arrow
 
 class BattlemetricsPlugin:
     def __init__(self, updater) -> None:
-        print("Initing battlemetrics plugin!")
+        print("Initiation du plugin battlemetrics!")
         # if true than the plugin will modify the record
         # for DB so all mutable plugins will be ran one-by-one and not concurrently
         # (cuz I don't want to mess with syncing of all changes)

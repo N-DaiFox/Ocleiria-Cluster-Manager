@@ -1,20 +1,20 @@
 {
 
-    "help": "*Help message*\nBot version: `{version}`\n`{prefix}prefix` - change or view current server's prefix\n`{prefix}server add` - add ARK server to bot's list\n`{prefix}server info` - view info about server\n`{prefix}server delete` - delete server from bot's list\n`{prefix}list` - write list of added servers to bot's list\n`{prefix}info` - all info about this bot (also useful links)\n`{prefix}watch` - bot will send notification if your server goes down!\n`{prefix}unwatch` - if you don't want to receive notifications about servers",
-    "ping" : "Pong! Ping is: {} ms !",
-    "curr_prefix" : "Current prefix is : `{}`",
-    "cant_change_prefix" : "You can`t change prefix in DM.",
-    "done" : "Done !",
-    "share_msg" : "Here is link {} to invite me to our server!",
+    "help": "*Message d'aide*\nVersion du Bot: `{version}`\n`{prefix}Prefix` - modifier ou afficher le préfixe du serveur actuel\n`{prefix}server add` - ajouter le serveur ARK à la liste des bots\n`{prefix}server info` - afficher les informations sur le serveur\n`{prefix}server delete` - supprimer le serveur de la liste du bot\n`{prefix}list` - écrire la liste des serveurs ajoutés à la liste du bot\n`{prefix}info` - toutes les infos sur ce bot (également des liens utiles)\n`{prefix}watch` - le bot enverra une notification si votre serveur tombe en panne!\n`{prefix}unwatch` - si vous ne souhaitez pas recevoir de notifications sur les serveurs",
+    "ping" : "Pong! La latence du bot est de : {} ms !",
+    "curr_prefix" : "Le préfixe actuel est : `{}`",
+    "cant_change_prefix" : "ous ne pouvez pas changer le préfixe en Message Privé",
+    "done" : "Fait !",
+    "share_msg" : "Voici le lien {} pour m'inviter sur notre serveur !",
 
-    "online" : "Online",
-    "offline" : "Offline",
-    "yes": "Yes",
-    "no" : "No",
-    "status" : "Status",
+    "online" : "En ligne",
+    "offline" : "Hors ligne",
+    "yes": "Oui",
+    "no" : "Non",
+    "status" : "Statut",
     "version" : "Version",
-    "players_count" : "Players count",
-    "server_select" : "Select server:",
-    "no_servers_added" : "No Servers added to bot's list ! You can add one with `{}server add`."
+    "players_count" : "Nombre de joueurs",
+    "server_select" : "Sélectionnez le serveur :",
+    "no_servers_added" : "Aucun serveur ajouté à la liste du bot ! Vous pouvez en ajouter un avec `{}server add`."
     
 }

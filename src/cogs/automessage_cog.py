@@ -17,8 +17,8 @@ class AutoMessageCog(commands.Cog):
         embed = discord.Embed()
         # add info
         embed.add_field(
-            name=f"All done!",
-            value=f"Now I will update that [message]({link}) about `{await stripVersion(server)}`!",
+            name=f"C'est fait !",
+            value=f"Je vais mettre à jour ce [message]({link}) sur `{await stripVersion(server)}`!",
         )
         # paint it
         embed.color = randomColor()
@@ -32,8 +32,8 @@ class AutoMessageCog(commands.Cog):
         embed = discord.Embed()
         # add info
         embed.add_field(
-            name=f"You have no auto messages for `{await stripVersion(server)}`!",
-            value=f"You can create them with `{ctx.prefix}automessage #channel-you-want`",
+            name=f"Vous n'avez pas de messages automatiques pour `{await stripVersion(server)}`!",
+            value=f"Vous pouvez les créer avec `{ctx.prefix}automessage #Salon-que-tu-veux :`",
         )
         # paint it
         embed.color = randomColor()
@@ -49,8 +49,8 @@ class AutoMessageCog(commands.Cog):
         embed = discord.Embed()
         # add info
         embed.add_field(
-            name=f"You already have auto message for `{await stripVersion(server)}` in that channel!",
-            value=f"You already have auto [message]({link}) for `{await stripVersion(server)}` in that channel!",
+            name=f"Vous avez déjà un message automatique pour `{await stripVersion(server)}` sur ce salon !",
+            value=f"Vous avez déjà l'auto [message]({link}) pour `{await stripVersion(server)}` sur ce salon !",
         )
         # paint it
         embed.color = randomColor()
@@ -64,8 +64,8 @@ class AutoMessageCog(commands.Cog):
             errorEmbed = discord.Embed()
             # add error info
             errorEmbed.add_field(
-                name="Oops seems like you have no auto messages!",
-                value=f"But you can add them via {ctx.prefix}automessage #channel-you-want",
+                name="Oups, il semble que vous n'ayez pas de messages automatiques !",
+                value=f"Mais vous pouvez les ajouter via {ctx.prefix}automessage #Salon-que-tu-veux",
             )
             # paint it
             errorEmbed.color = randomColor()
@@ -74,7 +74,7 @@ class AutoMessageCog(commands.Cog):
             return
 
         # create embed
-        embed = discord.Embed(title="List of auto messages:")
+        embed = discord.Embed(title="Liste des messages automatiques :")
         # index of a message
         i = 1
         # for each message
@@ -96,8 +96,8 @@ class AutoMessageCog(commands.Cog):
             channelMention = f"<#{message[1]}>"
             # add info about current message
             embed.add_field(
-                name=f"{i}) Message for {name}:",
-                value=f"[Message]({link}) in {channelMention}",
+                name=f"{i}) Message pour {name}:",
+                value=f"[Message]({link}) dans {channelMention}",
             )
             # increase message index
             i += 1
@@ -142,7 +142,7 @@ class AutoMessageCog(commands.Cog):
             # else set it to name of the server
             name = await stripVersion(serverObj) if alias == "" else alias
             # create embed
-            embed = discord.Embed(title=f"Delete all messages for `{name}`?")
+            embed = discord.Embed(title=f"Supprimer tous les messages pour `{name}`?")
             i = 1
             # for each message
             for message in messages:
@@ -153,7 +153,7 @@ class AutoMessageCog(commands.Cog):
                 # add info about message
                 embed.add_field(
                     name=f"Message №{i}",
-                    value=f"[Message]({link}) in {channelMention}",
+                    value=f"[Message]({link}) dans {channelMention}",
                 )
                 # increase i
                 i += 1
@@ -180,7 +180,7 @@ class AutoMessageCog(commands.Cog):
                     await self.msg.clear_reactions()
                     # Reset embed
                     await self.msg.edit(
-                        content="The interactive menu was closed.", embed=None
+                        content="Le menu interactif était fermé.", embed=None
                     )
                 except discord.errors.NotFound:  # the menu was deleted
                     return
@@ -196,7 +196,7 @@ class AutoMessageCog(commands.Cog):
                     )
                     # notify user
                     await self.msg.edit(
-                        content="Done! You can now safely delete that message!",
+                        content="C'est fait ! Vous pouvez maintenant supprimer ce message en toute sécurité !",
                         embed=None,
                     )
                     return
@@ -245,26 +245,26 @@ class AutoMessageCog(commands.Cog):
                 nameValue += f"{player.name}\n"
                 timevalue += f"{player.time}\n"
             # then add these variables to embed
-            embed.add_field(name="Name", value=nameValue, inline=True)
-            embed.add_field(name="Time", value=timevalue, inline=True)
+            embed.add_field(name="Nom", value=nameValue, inline=True)
+            embed.add_field(name="Temps", value=timevalue, inline=True)
         # if there is no players
         else:
             # add this info into embed
-            embed.add_field(name="No one is on the server", value="\u200B", inline=True)
+            embed.add_field(name="Personne n'est sur le serveur", value="\u200B", inline=True)
         # if server is online set status to online string
         # else set to offline string
         status = (
-            ":green_circle: Online" if server[0][6] == 1 else ":red_circle: Offline"
+            ":green_circle: En Ligne" if server[0][6] == 1 else ":red_circle: Hors Ligne"
         )
         # add other info about server
-        embed.add_field(name="Status", value=status, inline=False)
+        embed.add_field(name="Statut", value=status, inline=False)
         embed.add_field(name="Ping", value=f"{serverObj.ping} ms", inline=True)
         embed.add_field(name="Map", value=serverObj.map, inline=True)
         embed.add_field(name="IP", value=f"{serverObj.ip}", inline=True)
         # get current time
         curTime = datetime.datetime.utcnow()
         # set footer
-        embed.set_footer(text=f'Updated: {curTime.strftime("%m.%d at %H:%M")} (UTC)')
+        embed.set_footer(text=f'Mis à jour : {curTime.strftime("%m.%d à %H:%M")} (UTC)')
         # paint in random color
         embed.color = randomColor()
         # return embed
@@ -274,7 +274,7 @@ class AutoMessageCog(commands.Cog):
         # list with needed perms
         boolPerms = [perms.send_messages, perms.embed_links, perms.external_emojis]
         # list with text representations of perms in first list
-        textPerms = ["Send messages", "Embed links", "Use external emojis"]
+        textPerms = ["Envoyer des messages", "Intégrer des liens", "Utiliser des émojis externes"]
         # where we put text representations of needed perms
         neededPerms = []
         for i, perm in enumerate(boolPerms):
@@ -293,8 +293,8 @@ class AutoMessageCog(commands.Cog):
         embed.color = discord.Colour.red()
         # add info
         embed.add_field(
-            name="I have insufficient permissions in that channel!",
-            value=f"I need `{neededPerms}` in {channel.mention} to send auto messages there!",
+            name="Je n'ai pas assez de permissions dans ce canal !",
+            value=f"J'ai besoin `{neededPerms}` dans {channel.mention} pour y envoyer des messages automatiques !",
         )
         # send embed
         await ctx.send(embed=embed)
@@ -321,22 +321,22 @@ class AutoMessageCog(commands.Cog):
     @commands.group(
         invoke_without_command=True,
         case_insensitive=True,
-        brief="Base command for auto messages of the bot",
+        brief="Commande de base pour les messages automatiques du bot",
     )
     async def automessage(self, ctx):
-        embed = discord.Embed(title="No subcommand selected!")
-        embed.add_field(name="Possible subcommands:", value="```\nadd\ndelete\nlist```")
+        embed = discord.Embed(title="Aucune sous-commande sélectionnée !")
+        embed.add_field(name="Sous-commandes possibles :", value="```\nadd\ndelete\nlist```")
         embed.add_field(
-            name="Example of `add` subcommand:", value=f"`{ctx.prefix}automessage add`"
+            name="Exemple de sous-commande `add` :", value=f"`{ctx.prefix}automessage add`"
         )
         await ctx.send(embed=embed)
 
-    @automessage.command(brief="A command to create an automessage")
+    @automessage.command(brief="Une commande pour créer un automessage")
     async def add(
         self,
         ctx,
         channel: discord.TextChannel = commands.Option(
-            description="Channel where to send the automessage"
+            description="Salon où envoyer les messages automatiques"
         ),
     ):
         # check perms
@@ -379,7 +379,7 @@ class AutoMessageCog(commands.Cog):
         # if we can't
         except discord.Forbidden:
             # notify user
-            await ctx.send("Failed to send message to selected channel!")
+            await ctx.send("Impossible d'envoyer un message au canal sélectionné !")
             return
         # else
         # make new record
@@ -395,7 +395,7 @@ class AutoMessageCog(commands.Cog):
         # and notify user
         await self.done(ctx, server[0], message.id, channel)
 
-    @automessage.command(brief="A command list all automessages with links to them")
+    @automessage.command(brief="Une commande listant tous les messages automatiques avec des liens vers eux")
     async def list(
         self,
         ctx,
@@ -407,7 +407,7 @@ class AutoMessageCog(commands.Cog):
         # and list them
         await self.listMessages(ctx, messages)
 
-    @automessage.command(brief="A command to delete an automessage")
+    @automessage.command(brief="Une commande pour supprimer un message automatique")
     async def delete(
         self,
         ctx,

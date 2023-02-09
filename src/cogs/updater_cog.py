@@ -24,7 +24,7 @@ from cogs.updatePlugins.notifications import NotificationsPlugin
 
 class DebugPlugin:
     def __init__(self, updater) -> None:
-        print("Initing debug plugin!")
+        print("Un plugin de débogage intéressant !")
         # if true than the plugin will modify the record
         # for DB so all mutable plugins will be ran one-by-one and not concurrently
         # (cuz I don't want to mess with syncing of all changes)
@@ -50,7 +50,7 @@ class DebugPlugin:
 
     # called on each iteration of main loop
     async def loopStart(self):
-        print("Loop started!")
+        print("La boucle est lancée !")
 
     async def loopEnd(self):
         pass
@@ -188,11 +188,11 @@ class NeoUpdater(commands.Cog):
         minChunk = min(chunkTimes)
         maxChunk = max(chunkTimes)
         await sendToMe(
-            f"New updater took {globalTime:.4f} sec. to update {self.serversIds.__len__()} servers.",
+            f"Une nouvelle mise à jour a été effectuée {globalTime:.4f} sec. de mettre à jour {self.serversIds.__len__()} serveurs.",
             self.bot,
         )
         await sendToMe(
-            f"Min chunk time: {minChunk:.4f}\nAvg chunk time: {avgChunk:.4f}\nMax chunk time: {maxChunk:.4f}",
+            f"Durée min de l'opération : {minChunk:.4f}\nDurée moyenne de l'opération : {avgChunk:.4f}\nDurée max de l'opération : {maxChunk:.4f}",
             self.bot,
         )
 
@@ -215,7 +215,7 @@ class NeoUpdater(commands.Cog):
                 serverRecords = await plugin.handle(serverRecords)
                 # catch common error
                 if serverRecords == None:
-                    print(f"Plugin {type(plugin).__name__} returned none!")
+                    print(f"Plugin {type(plugin).__name__} n'en a retourné aucun !")
         # if we have any immutable plugins
         if immutablePlugins.__len__() > 0:
             # list for coroutines
@@ -236,7 +236,7 @@ class NeoUpdater(commands.Cog):
         for plugin in self.plugins:
             # let the plugin refresh it's cache etc.
             await plugin.loopStart()
-        print("Refreshed plugins!")
+        print("Plugins rafraîchis !")
 
     # let plugins know that the loop has ended
     # will be called on each loop iteration
@@ -272,7 +272,7 @@ class NeoUpdater(commands.Cog):
             # pls notify me
             asyncio.create_task(
                 sendToMe(
-                    f"Server failed!\nId:{serverRecord[0]} ,Ip:{serverRecord[1]}",
+                    f"Le serveur a échoué !\nId:{serverRecord[0]} ,Ip:{serverRecord[1]}",
                     self.bot,
                 )
             )
@@ -322,7 +322,7 @@ class NeoUpdater(commands.Cog):
     # main updater loop
     @tasks.loop(seconds=100.0)
     async def update(self):
-        await sendToMe("Entered updater loop!", self.bot)
+        await sendToMe("Entré dans la boucle de mise à jour !", self.bot)
         await self.loopStart()  # let the plugins know
         globalStart = time.perf_counter()  # start performance timer
         chunksTime = []  # array to hold time each chunk took to process
@@ -331,7 +331,7 @@ class NeoUpdater(commands.Cog):
         )  # update local cache
         self.serversIds = await self.flattenCache()  # make array with ids only
         serversCount = self.servers.__len__()  # get how many servers we need to update
-        print(f"Count of servers: {serversCount}")
+        print(f"Nombre de serveurs : {serversCount}")
         tasks = []  # list of tasks to run concurrently
         localStart = time.perf_counter()  # start performance timer for this chunk
         # for each server
@@ -340,7 +340,7 @@ class NeoUpdater(commands.Cog):
             currentServer = await self.searchCache(i)
             # if server not found
             if not currentServer:
-                print(f"Skipped server {i}")
+                print(f"Serveur ignoré {i}")
                 # skip this server
                 continue
             # make coroutine
@@ -361,7 +361,7 @@ class NeoUpdater(commands.Cog):
                 chunksTime.append(time.perf_counter() - localStart)
                 # reset timer
                 localStart = time.perf_counter()
-                print(f"Updated {[i.Id for i in results]}")
+                print(f"Mise à jour {[i.Id for i in results]}")
         # if there is some tasks left
         if tasks.__len__() != 0:
             # run them concurrently
@@ -383,7 +383,7 @@ class NeoUpdater(commands.Cog):
     @update.before_loop
     async def before_update(self):
         await self.init()
-        print("Inited updater loop!")
+        print("Boucle de mise à jour initiée !")
 
     # on error handler
     @update.error
@@ -392,7 +392,7 @@ class NeoUpdater(commands.Cog):
         errors_str = "".join(errors)
         await sendToMe(f"```{errors_str}```", self.bot)
         await sendToMe(
-            f"Plugins active: {[type(plugin).__name__ for plugin in self.plugins]}\nWorkers count: {self.workersCount}",
+            f"Plugins actifs : {[type(plugin).__name__ for plugin in self.plugins]}\nNombre de travailleurs : {self.workersCount}",
             self.bot,
             True,
         )
@@ -402,7 +402,7 @@ class NeoUpdater(commands.Cog):
     async def destroy(self):
         self.sqlPool.close()
         await self.httpSession.close()
-        print("Destroyed updater loop!")
+        print("Boucle de mise à jour détruite !")
 
 
 def setup(bot: commands.Bot) -> None:

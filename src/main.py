@@ -22,7 +22,7 @@ from pathlib import Path
 debug = Debuger("main")  # create debugger (see helpers.py)
 conf = config.Config()  # load config
 # set custom status for bot (sadly it isn't possible to put buttons like in user's profiles)
-game = discord.Game("ping me to get prefix")
+game = discord.Game("ping moi pour obtenir le préfixe")
 intents = discord.Intents(messages=True, guilds=True, reactions=True)
 # create auto sharded bot with default prefix and no help command
 bot = commands.AutoShardedBot(
@@ -46,19 +46,19 @@ bot.loop.set_debug(conf.debug)
 
 # setup function
 def setup():
-    print("Started loading cogs")
+    print("Commencé à charger les cogs")
     # search for cogs
     cogs = [p.stem for p in Path(".").glob("./src/cogs/*.py")]
     print(cogs)
     for cog in cogs:
         print(f"cogs.{cog}")
         bot.load_extension(f"cogs.{cog}")
-        print(f"{cog} cog loaded")
+        print(f"{cog} cog chargé")
     # load jishaku
     bot.load_extension("jishaku")
     # hide it's command
     bot.get_command("jsk").hidden = True
-    print("Finished setup function")
+    print("Fonction de configuration terminée")
 
 
 # ~~~~~~~~~~~~~~~~~~~~~
@@ -90,7 +90,7 @@ async def prefix(ctx, prefix: str = commands.Option(None, description="Prefix"))
             # if @ in prefix
             if "@" in prefix:
                 # send error message
-                await ctx.send("You can`t set prefix that contains @!")
+                await ctx.send("Vous ne pouvez pas définir un préfixe qui contient @!")
                 return
             # get settings for current guild
             data = await makeAsyncRequest(
@@ -117,51 +117,51 @@ async def prefix(ctx, prefix: str = commands.Option(None, description="Prefix"))
                     ),
                 )
             # send done message
-            await ctx.send(t.l["done"])
+            await ctx.send(t.l["fait"])
         # if check failed
         else:
             # send error message
-            await ctx.send("You need manage roles permission to change my prefix!")
+            await ctx.send("Vous devez avoir la permission de gérer les rôles pour changer mon préfixe !")
             return
 
 
 # main help command
-@bot.command(brief="Need help with the bot? This is the right command!")
+@bot.command(brief="Besoin d'aide avec le bot ? C'est la bonne commande !")
 async def help(ctx):
     time = datetime(2000, 1, 1, 0, 0, 0, 0)  # get time object
     # set title and timestamp of embed
-    message = discord.Embed(title="List of commands", timestamp=time.utcnow())
+    message = discord.Embed(title="Liste des commandes", timestamp=time.utcnow())
     # get current prefix
     prefix = ctx.prefix
     # set footer for embed
     message.set_footer(
-        text=f"Requested by {ctx.author.name} • Bot {conf.version} • GPLv3 ",
+        text=f"Demandé par {ctx.author.name} • Bot {conf.version} • GPLv3 ",
         icon_url=ctx.author.avatar.url,
     )
     # define value for Server section
-    serverValue = f"""**`{prefix}server info`- View info about added server
-`{prefix}server add <IP>:<Query port>`- Add server (Steam only, both official and not) to your list
-`{prefix}server delete`- Delete server from your list
-`{prefix}server alias`- List aliases for your servers
-`{prefix}server alias "<Alias>"`- Add alias for a server
-`{prefix}server alias delete`- Delete alias for your server**"""
+    serverValue = f"""**`{prefix}server info`- Affiche les informations sur le serveur ajouté
+`{prefix}server add <IP>:<Query port>`- Ajoute un serveur (Steam uniquement, officiel ou non) à votre liste
+`{prefix}server delete`- Supprime le serveur de votre liste
+`{prefix}server alias`- Liste des alias pour vos serveurs
+`{prefix}server alias "<Alias>"`- Ajoute un alias pour un serveur
+`{prefix}server alias delete`- Supprime l'alias de votre serveur**"""
     # add server section to the embed
-    message.add_field(name=f"**Server commands:**", value=serverValue)
+    message.add_field(name=f"**Commandes du serveur:**", value=serverValue)
     # define value for notifications section
-    notificationsValue = f"""**`{prefix}watch`- Bot will send a message when selected server goes online/offline in current channel
-`{prefix}unwatch` - Stop watching server
-`{prefix}automessage #any_channel` - Bot will send and update message about a server!
-`{prefix}automessage` - List any automessages you have
-`{prefix}automessage delete` - Delete **all** automessages for a server
+    notificationsValue = f"""**`{prefix}watch`- Le bot enverra un message lorsque le serveur sélectionné sera en ligne ou hors ligne dans le salon actuel.
+`{prefix}unwatch` - Arrêtez de surveiller le serveur
+`{prefix}automessage #tout_salon` - Le bot enverra un message de mise à jour sur un serveur !
+`{prefix}automessage` - Liste des messages automatiques que vous avez
+`{prefix}automessage delete` - Supprimer **tous** les messages automatiques d'un serveur
 **"""
     # add notifications section to the embed
     message.add_field(
-        name=f"**Notification commands:**", value=notificationsValue, inline=False
+        name=f"**Commandes de notification:**", value=notificationsValue, inline=False
     )
     # define misc sections value
-    miscValue = f"**`{prefix}info`- Get info about this bot (e.g. support server, GitHub etc.)**"
+    miscValue = f"**`{prefix}info`- Obtenez des informations sur ce bot (par exemple, le serveur de support, GitHub, etc.)**"
     # add misc section to the embed
-    message.add_field(name=f'**Miscellaneous Commands:**', value=miscValue,
+    message.add_field(name=f'**Commandes diverses :**', value=miscValue,
                       inline=False)
     # and send it  
     await ctx.send(embed=message)  
@@ -180,7 +180,7 @@ async def on_message(msg):  # on every message
             # send error message
 
             await msg.channel.send(
-                "Sorry you can't use this bot in DMs! You can add me to some server by this link: https://bit.ly/ARKTop"
+                "Désolé, vous ne pouvez pas utiliser ce bot dans les DM!"
             )
         except BaseException as e:  # catch error
             return
@@ -208,9 +208,9 @@ async def on_error(event, *args, **kwargs):
         exception_pack[0], exception_pack[1], exception_pack[2]
     )
     errors_str = "".join(errors)
-    msg = f"Error happened in `{event}` event\n```{errors_str}```"
+    msg = f"Une erreur s'est produite dans `{event}` event\n```{errors_str}```"
     if msg.__len__() >= 2000:
-        await sendToMe(errors_str[:1975] + "`\nEnd of first part", bot)
+        await sendToMe(errors_str[:1975] + "`\nFin de la première partie", bot)
         await sendToMe(errors_str[1975:-1], bot, True)
         return
     else:
@@ -228,11 +228,11 @@ async def sendErrorEmbed(ctx, Id, error):
     # paint it red
     embed.color = discord.Colour.red()
     # set title
-    embed.title = "Opps! An error occurred!"
+    embed.title = "Oups! Une erreur s'est produite !"
     # add info
     embed.add_field(
-        name="I notified my creator about it! A fix is already on it's way!",
-        value=f"Your **unique** error id is `{Id}`. You can get more support in our [support](https://bit.ly/ARKDiscord) server.",
+        name="J'en ai informé mon créateur ! Un correctif est déjà en route !",
+        value=f"Votre id d'erreur **unique** est `{Id}`. Vous pouvez obtenir plus de soutien dans notre serveur [support](https://ocleiria.fr/discord).",
     )
     # add bot's version
     embed.set_footer(text=f"Bot {cfg.version}")
@@ -254,8 +254,8 @@ async def sendCommandNotFoundEmbed(ctx):
     embed.color = discord.Colour.red()
     # add info
     embed.add_field(
-        name="You entered wrong command!",
-        value=f"Command `{ctx.message.content}` doesn't exist. You can list my commands with `{prefix}help`.",
+        name="Tu as entré un mauvaise commande!",
+        value=f"Commande `{ctx.message.content}` n'éxiste pas. Tu peux voir la liste des commande avec `{prefix}help`.",
     )
     # send embed
     await ctx.send(embed=embed)
@@ -267,11 +267,11 @@ async def rateLimitHit(ctx, error):
     # paint it red
     embed.color = discord.Colour.red()
     # add title
-    embed.title = "Hold on!"
+    embed.title = "Attendez!"
     # add info
     embed.add_field(
-        name=f"You can only use `{ctx.message.content}` only `{error.cooldown.rate}` time(s) per `{int(error.cooldown.per)}` second(s)!",
-        value="Please try again later.",
+        name=f"Vous pouvez uniquement utiliser `{ctx.message.content}` uniquement `{error.cooldown.rate}` temp(s) par `{int(error.cooldown.per)}` seconde(s)!",
+        value="Merci de retenter plutard.",
     )
     # send embed
     await ctx.send(embed=embed)
@@ -285,9 +285,9 @@ async def insufficientPerms(ctx, perms):
     # paint it red
     embed.color = discord.Colour.red()
     # add title
-    embed.title = 'I am missing some permissions in this channel!'
+    embed.title = 'Il me manque certaines autorisations dans ce salon!'
     # add info
-    embed.add_field(name="I need:", value=f"```{joined}```")
+    embed.add_field(name="j'ai besoin:", value=f"```{joined}```")
     # send embed
     await ctx.send(embed=embed)
 
@@ -298,10 +298,10 @@ async def channelNotFound(ctx, error):
     # paint it red
     embed.color = discord.Colour.red()
     # add title
-    embed.title = 'That channel could not be found!'
+    embed.title = 'Ce salon n''a pas pu être trouvé !'
     # add info
-    embed.add_field(name=f"Channel with id `{error.argument[2:-1]}` isn't found!",
-                    value="Maybe you copied this channel from another server? ")
+    embed.add_field(name=f"Salon avec l'ID `{error.argument[2:-1]}` isn't found!",
+                    value="Peut-être avez-vous copié ce canal depuis un autre serveur ? ")
     # send embed 
     await ctx.send(embed=embed)
 
@@ -318,14 +318,14 @@ async def check_commands(ctx):
         embed.title = "Notice!"
         embed.colour = discord.Colour.red()
         embed.add_field(
-            name="Regular commands will **stop** working on <t:1661904000:D> (<t:1661904000:R>)!",
-            value="Instead there will be new slash commands.",
+            name="Les commandes régulières vont **cesser** de fonctionner sur <t:1661904000:D> (<t:1661904000:R>)!",
+            value="Au lieu de cela, il y aura de nouvelles commandes slash.",
         )
         embed.add_field(
-            name=f"To check if you are ready for the change use `{ctx.prefix}validateSlash` command.",
-            value="No data will be lost after the transition!",
+            name=f"Pour vérifier si vous êtes prêt pour le changement, utilisez la commande `{ctx.prefix}validateSlash`.",
+            value="Aucune donnée ne sera perdue après la transition!",
         )
-        embed.set_footer(text=f"You will get {messages_left} more warnings today.")
+        embed.set_footer(text=f"Vous obtiendrez {messages_left} de nouveaux avertissements aujourd'hui.")
         try:
             await ctx.send(embed=embed)
         except:
@@ -379,11 +379,11 @@ async def on_command_error(ctx, error):
         # n + 1 is it's replacement for message
         map = [
             "manage_messages",
-            "Manage messages",
+            "Gérer les messages",
             "external_emojis",
             "Use external emojis",
             "add_reactions",
-            "Add reactions",
+            "Utiliser des emojis externes",
         ]
         # array with replaced permissions names
         needed = []
@@ -404,10 +404,10 @@ async def on_command_error(ctx, error):
     elif errorType == discord.errors.Forbidden:
         # add some of them to the list
         needed_perms = [
-            "Add reactions",
+            "Ajouter des réactions",
             "Use external emojis",
-            "Send and read messages",
-            "Manage messages",
+            "Envoyer et voir les messages",
+            "Gérer les messages",
         ]
         try:
             # try to send message
@@ -420,10 +420,10 @@ async def on_command_error(ctx, error):
     # if required parameter is missing
     elif errorType == discord.ext.commands.errors.MissingRequiredArgument:
         embed = discord.Embed(
-            title="Required parameter is missing!", color=discord.Color.red()
+            title="Le paramètre requis est manquant !", color=discord.Color.red()
         )
         embed.add_field(
-            name=f"Parameter `{error.param.name}` is required!", value="\u200B"
+            name=f"Paramètre `{error.param.name}` est requis !", value="\u200B"
         )
         await ctx.send(embed=embed)
         return
@@ -474,7 +474,7 @@ Guild id : `{ctx.guild.id}`
             await sendToMe(message[1975:-1], bot, True)
         # if we can't
         except BaseException as e:
-            await sendToMe("Lenth of error message is over 4k!", bot, True)
+            await sendToMe("La longueur du message d'erreur est supérieure à 4k !", bot, True)
             await sendToMe(
                 f"""Error id : `{Id}`
 Message : `{ctx.message.content}`

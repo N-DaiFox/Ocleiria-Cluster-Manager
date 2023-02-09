@@ -34,7 +34,7 @@ class ServerStatus(Enum):
 
 class NotificationsPlugin:
     def __init__(self, updater) -> None:
-        print("Initing notifications plugin!")
+        print("Initiation du plugin notifications!")
         # if true than the plugin will modify the record
         # for DB so all mutable plugins will be ran one-by-one and not concurrently
         # (cuz I don't want to mess with syncing of all changes)
@@ -74,7 +74,7 @@ class NotificationsPlugin:
             self.updater.bot,
         )
         await sendToMe(
-            f"Sent {self.sentNotifications}/{self.notificationsCache.__len__()} notifications\nReasons: {str(self.reasons)}",
+            f"Sent {self.sentNotifications}/{self.notificationsCache.__len__()} notifications\nRaisons: {str(self.reasons)}",
             self.updater.bot,
         )
         # reset sent flag for all notifications records
@@ -117,7 +117,7 @@ class NotificationsPlugin:
         if status == ServerStatus.SERVER_WENT_DOWN:
             # create embed
             embed = discord.Embed(
-                title=f"Server {await stripVersion(updateResult.cachedServer)} went down!",
+                title=f"La carte {await stripVersion(updateResult.cachedServer)} s'est arrêtée!",
                 timestamp=self.time.utcnow(),
                 color=discord.Colour.red(),
             )
@@ -125,7 +125,7 @@ class NotificationsPlugin:
         else:
             # create embed
             embed = discord.Embed(
-                title=f"Server {await stripVersion(updateResult.cachedServer)} went up!",
+                title=f"La carte {await stripVersion(updateResult.cachedServer)} est démarrée!",
                 timestamp=self.time.utcnow(),
                 color=discord.Colour.green(),
             )
@@ -150,7 +150,7 @@ class NotificationsPlugin:
                 # set reason to went up if there is no reason
                 # else set it to reason whe update failed
                 reason = (
-                    "went up"
+                    "démarre"
                     if updateResult.reason == None
                     else updateResult.reason.reason
                 )
@@ -163,7 +163,7 @@ class NotificationsPlugin:
                 #await sendToMe(i, self.updater.bot)
                 # if channel is not found
                 if channel == None:
-                    await sendToMe(f"Channel {i[1]} isn`t found!", self.updater.bot)
+                    await sendToMe(f"Salon {i[1]} n'a pas été trouver!", self.updater.bot)
                     # delete the record (in background)s
                     asyncio.create_task(
                         self.updater.makeAsyncRequest(
@@ -188,7 +188,7 @@ class NotificationsPlugin:
                     except discord.errors.Forbidden:
                         # I will implement delete logic later
                         # for now skip this record
-                        await sendToMe("Forbidden", self.updater.bot)
+                        await sendToMe("Interdit", self.updater.bot)
                         continue
                     # change the status in DB to sent in background
                     asyncio.create_task(

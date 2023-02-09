@@ -9,7 +9,7 @@ class Slash(commands.Cog):
         self.appId = 727114852245569545
         self.cfg = bot.cfg
         self.token = self.cfg.token
-        self.authheader = {"Authorization": f"Bot {self.token}"}
+        self.authheader = {"Authorisation": f"Bot {self.token}"}
 
     async def cog_before_invoke(self, ctx):
         # if we have no http pool
@@ -29,29 +29,29 @@ class Slash(commands.Cog):
         if resp.status == 200:
             # construct embed
             embed = discord.Embed()
-            embed.title = "Everything OK!"
+            embed.title = "Tout est OK!"
             embed.description = (
-                "You have everything set up for use of new slash commands."
+                "Vous avez tout configuré pour utiliser les nouvelles commandes slash."
             )
             embed.colour = discord.Colour.green()
         # if 403 we don't have new OAuth2 scope
         elif resp.status == 403:
             # construct error with reinvite link
             embed = discord.Embed()
-            embed.title = "You need to reinvite the bot!"
+            embed.title = "Tu dois réinviter le bot!"
             embed.add_field(
-                name="Discord requires reinviting for some older servers.",
-                value="You **should** reinvite the bot with [this](https://discord.com/oauth2/authorize?client_id=713272720053239808&scope=bot%20applications.commands&permissions=1141189696) link!",
+                name="Discord nécessite une réinvitation pour certains serveurs plus anciens.",
+                value="Vous **devriez** réinviter le bot avec [ce link]!",
             )
-            embed.set_footer(text="No data will be lost when you reinvite the bot!")
+            embed.set_footer(text="Aucune donnée ne sera perdue lors de la réinvitation du bot!")
             embed.colour = discord.Colour.red()
         # something bad happened
         else:
             # construct error message
             embed = discord.Embed()
-            embed.title = "Oops, something went wrong on our side."
+            embed.title = "Oups, quelque chose s'est mal passé de notre côté."
             embed.description = (
-                "Please retry in a few minutes. Report this issue if it persists"
+                "Merci de réessayer dans quelques minutes Signalez ce problème s'il persiste."
             )
             embed.colour = discord.Colour.red()
         # get permissions for current user
@@ -59,13 +59,13 @@ class Slash(commands.Cog):
         # if the user can use slash commands
         if perms.use_slash_commands:
             embed2 = discord.Embed()
-            embed2.title = "You can execute slash commands!"
-            embed2.description = "I've checked your permissions and you can execute slash command in current channel."
+            embed2.title = "Vous pouvez exécuter des commandes slash!"
+            embed2.description = "J'ai vérifié vos autorisations et vous pouvez exécuter la commande slash dans le salon actuel."
             embed2.colour = discord.Colour.green()
         else:
             embed2 = discord.Embed()
-            embed2.title = "You **can't** execute slash commands!"
-            embed2.description = "I've checked your permissions and you **can't** execute slash command in current channel. Please check your permissions. You should turn on [Use Application Commands](https://cdn.discordapp.com/attachments/801142940595912728/893528552505483364/unknown.png) permission."
+            embed2.title = "Vous ** ne pouvez pas ** exécuter des commandes slash!"
+            embed2.description = "J'ai vérifié vos permissions et vous **ne pouvez** pas exécuter la commande slash dans le canal actuel. Veuillez vérifier vos autorisations. Vous devriez activer [Utiliser les commandes de l'application](https://media.discordapp.net/attachments/1069926548058165278/1073038632820146248/image.png) autorisation."
             embed2.colour = discord.Colour.red()
         await ctx.send(embeds=[embed, embed2])
 

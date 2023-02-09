@@ -103,7 +103,7 @@ class Campfire(commands.Cog):
         time = datetime.datetime(2000, 1, 1, 0, 0, 0, 0)
         emb = discord.Embed(title=title, timestamp=time.utcnow())
         emb.set_footer(
-            text=f"Requested by {ctx.author.name} • Bot {self.cfg.version} • GPLv3 ",
+            text=f"Demandé par {ctx.author.name} • Bot {self.cfg.version} • GPLv3 ",
             icon_url=ctx.author.display_avatar,
         )
         emb.add_field(name=name, value=value)
@@ -121,44 +121,44 @@ class Campfire(commands.Cog):
     async def campfire(self, ctx, ammount: int = None, camps: int = 1):
         time = datetime.datetime(2000, 1, 1, 0, 0, 0, 0)
         if ammount == None:
-            emb = discord.Embed(title="Campfire rates:", timestamp=time.utcnow())
+            emb = discord.Embed(title="Tarifs du feu de camp:", timestamp=time.utcnow())
             emb.set_footer(
-                text=f"Requested by {ctx.author.name} • Bot {self.cfg.version} • GPLv3 ",
+                text=f"Demandé par {ctx.author.name} • Bot {self.cfg.version} • GPLv3 ",
                 icon_url=ctx.author.display_avatar,
             )
             emb.set_thumbnail(
                 url="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/0/01/Campfire.png"
             )
-            emb.add_field(name="Thatch burn time:", value="7.5 seconds", inline=False)
-            emb.add_field(name="Wood burn time:", value="30 seconds", inline=False)
+            emb.add_field(name="Temps de combustion du chaume:", value="7.5 secondes", inline=False)
+            emb.add_field(name="Temps de combustion du bois:", value="30 secondes", inline=False)
             emb.add_field(
-                name="Cook time of any fish or meat:", value="20 seconds", inline=False
+                name="Temps de cuisson de n'importe quel poisson ou viande:", value="20 secondes", inline=False
             )
-            emb.add_field(name="Cook time of mutton:", value="1 minute", inline=False)
+            emb.add_field(name="Temps de cuisson de la viande de mouton:", value="1 minute", inline=False)
             await ctx.send(embed=emb)
             return
         if camps <= 0:
             await self.sendEmbed(
                 ctx,
-                "Oops!",
-                "You can`t use 0 or negative numbers for `camps` parameter!",
-                "Just don't. You can't cook something in 0 camps, can you?",
+                "Oups!",
+                "Vous ne pouvez pas utiliser 0 ou des nombres négatifs pour le paramètre 'feu de camp'!",
+                "Ne le faites pas. Vous ne pouvez pas cuisiner quelque chose sans feu de camp, pouvez-vous?",
             )
             return
         self.calculate(ammount, Meat.Default, camps)
-        emb = discord.Embed(title="Campfire", timestamp=time.utcnow())
+        emb = discord.Embed(title="Feu de camp", timestamp=time.utcnow())
         emb.set_footer(
-            text=f"Requested by {ctx.author.name} • Bot {self.cfg.version} • GPLv3 ",
+            text=f"Demandé par {ctx.author.name} • Bot {self.cfg.version} • GPLv3 ",
             icon_url=ctx.author.display_avatar,
         )
         if camps == 1:
             emb.add_field(
-                name="Time:",
+                name="Temps:",
                 value=f"{self.cookTimeHor}:{self.cookTimeMin}:{self.cookTimeSec}",
                 inline=True,
             )
-            emb.add_field(name="Thatch:", value=self.thatchPerCamp, inline=True)
-            emb.add_field(name="Wood:", value=self.woodPerCamp, inline=False)
+            emb.add_field(name="Chaume:", value=self.thatchPerCamp, inline=True)
+            emb.add_field(name="Bois:", value=self.woodPerCamp, inline=False)
             emb.set_thumbnail(
                 url="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/0/01/Campfire.png"
             )
@@ -166,16 +166,16 @@ class Campfire(commands.Cog):
             return
         else:
             emb.add_field(
-                name="Time:",
+                name="Temps:",
                 value=f"{self.cookTimeHor}:{self.cookTimeMin}:{self.cookTimeSec}",
                 inline=False,
             )
             emb.add_field(
-                name="Thatch (per camp):", value=self.thatchPerCamp, inline=False
+                name="Chaume (par feu de camp):", value=self.thatchPerCamp, inline=False
             )
-            emb.add_field(name="Wood (per camp):", value=self.woodPerCamp, inline=False)
-            emb.add_field(name="Total thatch:", value=self.totalThatch, inline=False)
-            emb.add_field(name="Total wood:", value=self.totalWood, inline=False)
+            emb.add_field(name="Bois (par feu de camp):", value=self.woodPerCamp, inline=False)
+            emb.add_field(name="Total de chaume:", value=self.totalThatch, inline=False)
+            emb.add_field(name="Total de bois:", value=self.totalWood, inline=False)
             emb.set_thumbnail(
                 url="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/0/01/Campfire.png"
             )

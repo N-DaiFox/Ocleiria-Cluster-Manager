@@ -33,7 +33,7 @@ class Charcoal(commands.Cog):
         time = datetime.datetime(2000, 1, 1, 0, 0, 0, 0)
         emb = discord.Embed(title=title, timestamp=time.utcnow())
         emb.set_footer(
-            text=f"Requested by {ctx.author.name} • Bot {self.cfg.version} • GPLv3 ",
+            text=f"Demandé par {ctx.author.name} • Bot {self.cfg.version} • GPLv3 ",
             icon_url=ctx.author.display_avatar,
         )
         emb.add_field(name=name, value=value)
@@ -53,32 +53,32 @@ class Charcoal(commands.Cog):
         if ammount == None:
             await self.sendEmbed(
                 ctx,
-                "Oops!",
-                "You can`t use 0 or negative numbers for `ammount` parameter!",
-                f"You need some charcoal and not {ammount}!",
+                "Oups!",
+                "Vous ne pouvez pas utiliser 0 ou des nombres négatifs pour `ammount` paramètre!",
+                f"Vous avez besoin de charbon de bois et non {ammount}!",
             )
             return
         if camps <= 0:
             await self.sendEmbed(
                 ctx,
-                "Oops!",
-                "You can`t use 0 or negative numbers for `camps` parameter!",
-                "Just don't. You can't make some charcoal in 0 camps, can you?",
+                "Oups!",
+                "Vous ne pouvez pas utiliser 0 ou des nombres négatifs pour `camps` paramètre!",
+                "Ne le faites pas. Vous ne pouvez pas faire du charbon de bois sans feu de camps n'est-ce pas ?",
             )
             return
         self.calculate(ammount, camps)
-        emb = discord.Embed(title="Charcoal", timestamp=time.utcnow())
+        emb = discord.Embed(title="Charbon de bois", timestamp=time.utcnow())
         emb.set_footer(
-            text=f"Requested by {ctx.author.name} • Bot {self.cfg.version} • GPLv3 ",
+            text=f"Demandé par {ctx.author.name} • Bot {self.cfg.version} • GPLv3 ",
             icon_url=ctx.author.display_avatar,
         )
         if camps == 1:
             emb.add_field(
-                name="Time:",
+                name="Temps :",
                 value=f"{self.cookTimeHor}:{self.cookTimeMin}:{self.cookTimeSec}",
                 inline=True,
             )
-            emb.add_field(name="Wood:", value=self.neededWood, inline=False)
+            emb.add_field(name="Bois:", value=self.neededWood, inline=False)
             emb.set_thumbnail(
                 url="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/4/4f/Charcoal.png"
             )
@@ -86,12 +86,12 @@ class Charcoal(commands.Cog):
             return
         else:
             emb.add_field(
-                name="Time:",
+                name="Temps :",
                 value=f"{self.cookTimeHor}:{self.cookTimeMin}:{self.cookTimeSec}",
                 inline=False,
             )
-            emb.add_field(name="Total wood:", value=self.totalWood, inline=False)
-            emb.add_field(name="Wood (per camp):", value=self.woodPerCamp, inline=False)
+            emb.add_field(name="Bois total :", value=self.totalWood, inline=False)
+            emb.add_field(name="Bois (per camp):", value=self.woodPerCamp, inline=False)
             emb.set_thumbnail(
                 url="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/4/4f/Charcoal.png"
             )

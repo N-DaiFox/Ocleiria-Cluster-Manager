@@ -43,7 +43,7 @@ class AdminCog(commands.Cog):
         loc = Location(session)
         code = await loc.get(ip)
         emoji = await loc.getEmoji(code)
-        await ctx.send(f"Ip: `{ip}`\nCountry code: `{code}`\nCountry emoji: {emoji}")
+        await ctx.send(f"Ip: `{ip}`\nCode postal: `{code}`\nÉmoji de pays: {emoji}")
 
     @commands.command(slash_command=False, hidden=True)
     async def setMessage(self, ctx, message):
@@ -55,13 +55,13 @@ class AdminCog(commands.Cog):
         await makeAsyncRequest(
             "UPDATE settings SET Admins=%s WHERE GuildId=1", (message,)
         )
-        await ctx.send("Done!")
+        await ctx.send("C'est fait!")
 
     @commands.command(slash_command=False, hidden=True)
     async def deleteMessage(self, ctx, channelId: int, messageId: int):
         channel = self.bot.get_channel(channelId)
         if channel == None:
-            await ctx.send("Wrong channel id")
+            await ctx.send("Id du salon incorrecte")
         else:
             try:
                 message = await channel.fetch_message(messageId)
@@ -70,11 +70,11 @@ class AdminCog(commands.Cog):
                 await ctx.send(e)
                 return
             await message.delete()
-            await ctx.send("Done !")
+            await ctx.send("C'est fait !")
 
     @commands.command(slash_command=False, hidden=True)
     async def restart(self, ctx):
-        await ctx.send("Good bye my friend!")
+        await ctx.send("Au revoir mon pote!")
         exit(12121312)
         return
     
@@ -90,25 +90,25 @@ class AdminCog(commands.Cog):
             id = server[0]
             result = await deleteServer("", id)
             if result != 0:
-                await ctx.send(f"Smt went wrong with server {id}!")
-        await ctx.send("Deleted servers!")
+                await ctx.send(f"Smt a eu un problème avec le serveur {id}!")
+        await ctx.send("Serveur supprimé!")
         return
 
     @commands.command(slash_command=False, hidden=True)
     async def purgeServers(self, ctx, *argv):
         if argv.__len__() <= 0:
-            await ctx.send("Not every parameter was supplied!")
+            await ctx.send("Tous les paramètres n'ont pas été fournis!")
             return
         elif str.isdigit(argv[0]):
             value = int(argv[0])
         else:
-            await ctx.send(f"`{ argv[0]}` isn't a number!")
+            await ctx.send(f"`{ argv[0]}` n'est pas un nombre!")
             return
         machedServers = await makeAsyncRequest(
             "SELECT COUNT(*) FROM `servers` WHERE OfflineTrys >= %s", (value,)
         )
         self.msg = await ctx.send(
-            f"Do you really want to delete {machedServers[0][0]} servers?"
+            f"Veux tu vraiment supprimer le serveur {machedServers[0][0]} ?"
         )
         await self.msg.add_reaction("✅")
         try:
@@ -122,14 +122,14 @@ class AdminCog(commands.Cog):
             try:
                 await self.msg.clear_reactions()
                 await self.msg.edit(
-                    content="The interactive menu was closed.", embed=None
+                    content="Le menu interactif vient de se fermer.", embed=None
                 )
             # It was SO ANNOYING ! DONT DELET MESSAGES THERE ARE STOP BUTTON! (yeah I pasted this code from user space why not)
             except discord.errors.NotFound:
                 return ""
         else:
             if str(reaction.emoji) == "✅":
-                await ctx.send("Ok! Deleting!")
+                await ctx.send("Ok! Suppression!")
                 await self.msg.clear_reactions()
                 await self.purge(ctx, value)
 

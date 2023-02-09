@@ -44,10 +44,10 @@ class MiscCommands(commands.Cog):
         # paint it
         embed.color = randomColor()
         # add title
-        embed.title = "Looks like you have no servers added!"
+        embed.title = "On dirait que vous n'avez pas de serveurs ajoutés !"
         # and description
         embed.description = (
-            f"You can add any steam server using `{ctx.prefix}server add` command!"
+            f"Vous pouvez ajouter n'importe quel serveur Steam en utilisant la commande `{ctx.prefix}server add`"
         )
         # and return
         return embed
@@ -74,7 +74,7 @@ class MiscCommands(commands.Cog):
         # paint it
         embed.color = randomColor()
         # set title
-        embed.title = "List of servers:"
+        embed.title = "Liste des serveurs:"
         # index of the first server
         i = 1
         # for each server
@@ -88,7 +88,7 @@ class MiscCommands(commands.Cog):
             # if server is online set status to online string
             # else to offline string
             status = (
-                ":green_circle: Online" if server[6] == 1 else ":red_circle: Offline"
+                ":green_circle: En Ligne" if server[6] == 1 else ":red_circle: Hors Ligne"
             )
             # create field value
             fieldValue = f'[{server[1]}]({info.get("battleUrl","")}) {status}'
@@ -114,7 +114,7 @@ class MiscCommands(commands.Cog):
         # paint it
         embed.color = randomColor()
         # add title
-        embed.title = "List of notifications:"
+        embed.title = "Liste des notifications:"
         # notification index
         i = 1
         # for each record in db
@@ -132,8 +132,8 @@ class MiscCommands(commands.Cog):
                 # make server object from record
                 server = c.ARKServer.fromJSON(server[4])
                 # make name and value
-                name = f"{i}. Notification for `{await stripVersion(server)}`"
-                value = f"In <#{record[1]}>"
+                name = f"{i}. Notification pour `{await stripVersion(server)}`"
+                value = f"Sur <#{record[1]}>"
                 # and add field
                 embed.add_field(name=name, value=value)
                 i += 1
@@ -157,7 +157,7 @@ class MiscCommands(commands.Cog):
         # paint it
         embed.color = randomColor()
         # add title
-        embed.title = "List of auto messages:"
+        embed.title = "Liste des messages auto :"
         # get ids of all servers in records
         serversIds = [record[3] for record in records]
         # get servers from those ids
@@ -171,8 +171,8 @@ class MiscCommands(commands.Cog):
             # create link to message from auto message record
             msgLink = f"https://discordapp.com/channels/{ctx.guild.id}/{record[1]}/{record[2]}"
             # create name and value for field
-            name = f"{index}. Message for `{await stripVersion(server)}`"
-            value = f"[Message]({msgLink}) in <#{record[1]}>"
+            name = f"{index}. Message pour `{await stripVersion(server)}`"
+            value = f"[Message]({msgLink}) sur <#{record[1]}>"
             # add field
             embed.add_field(name=name, value=value)
             index += 1
@@ -205,7 +205,7 @@ class MiscCommands(commands.Cog):
             return f"{hours:01}:{minutes:01}:{seconds:01}"
         else:
             # return full string
-            return f"{days} days {hours:01}:{minutes:01}:{seconds:01}"
+            return f"{days} jours {hours:01}:{minutes:01}:{seconds:01}"
 
     @commands.bot_has_permissions(
         add_reactions=True,
@@ -214,7 +214,7 @@ class MiscCommands(commands.Cog):
         manage_messages=True,
         external_emojis=True,
     )
-    @commands.command(brief="List everything you can create in this bot")
+    @commands.command(brief="Listez tout ce que vous pouvez créer dans ce bot")
     async def list(self, ctx):
         # TODO re-do this to use multiple embeds in one message (need d.py 2.0 for that)
         # IDEA maybe you can select what you are trying to list ? like :
@@ -240,7 +240,7 @@ class MiscCommands(commands.Cog):
         manage_messages=True,
         external_emojis=True,
     )
-    @commands.command(brief="Get info about this bot")
+    @commands.command(brief="Obtenir des informations sur ce bot")
     async def info(self, ctx):
         # get how many servers we have in DB
         count = await makeAsyncRequest("SELECT COUNT(Id) FROM servers")
@@ -252,33 +252,33 @@ class MiscCommands(commands.Cog):
         role = ctx.me.top_role.mention if ctx.me.top_role != "@everyone" else "No role"
         # create embed
         embed = discord.Embed(
-            title=f"Info about {self.bot.user.name}",
+            title=f"Infos sur {self.bot.user.name}",
             timestamp=time.utcnow(),
             color=randomColor(),
         )
         # set footer
         embed.set_footer(
-            text=f"Requested by {ctx.author.name} • Bot {self.cfg.version} • Uptime: {self.getUptime()} ",
+            text=f"Demandé par {ctx.author.name} • Bot {self.cfg.version} • Temps de fonctionnement: {self.getUptime()} ",
             icon_url=ctx.author.display_avatar,
         )
         # add fields
         embed.add_field(
-            name="<:Link:739476980004814898> Invite link",
-            value="[Here!](https://bit.ly/ARKTop)",
+            name="<:Link:739476980004814898> Notre Site",
+            value="[Ici!](https://ocleiria.fr)",
             inline=True,
         )
         embed.add_field(
-            name="<:Github:739476979631521886> GitHub",
-            value="[Here!](https://github.com/Nereg/ARKMonitorBot)",
+            name="<:Github:739476979631521886> Liste Mod",
+            value="[Here!](https://steamcommunity.com/sharedfiles/filedetails/?id=2910181822)",
             inline=True,
         )
         embed.add_field(
-            name="<:Discord:739476979782254633> Support server",
-            value="[Here!](https://bit.ly/ARKDiscord)",
+            name="<:Discord:739476979782254633> Serveur Discord",
+            value="[Here!](https://ocleiria.fr/discord)",
             inline=True,
         )
         embed.add_field(
-            name="<:DB:739476980075986976> Servers in database",
+            name="<:DB:739476980075986976> Serveurs dans la base de données",
             value=f"{count[0][0]}",
             inline=True,
         )
@@ -294,45 +294,45 @@ class MiscCommands(commands.Cog):
             inline=True,
         )
         embed.add_field(
-            name="<:me:739473644874367007> Creator", value=f"Nereg#7006", inline=True
+            name="<:me:739473644874367007> Créateur", value=f"DaiFox", inline=True
         )
         embed.add_field(
-            name="<:Discord:739476979782254633> Currently in",
-            value=f"{len(self.bot.guilds)} servers",
+            name="<:Discord:739476979782254633> Seulement sur",
+            value=f"Le serveur Ocleiria",
             inline=True,
         )
         embed.add_field(
-            name="<:Role:739476980076118046> Role on this server",
+            name="<:Role:739476980076118046> Rôle sur ce serveur",
             value=role,
             inline=True,
         )
         embed.add_field(
-            name=":grey_exclamation: Current prefix",
+            name=":grey_exclamation: Préfixe actuel",
             value=f"{ctx.prefix}",
             inline=True,
         )
         embed.add_field(
-            name="<:Cpu:739492057990693005> Current CPU utilization",
+            name="<:Cpu:739492057990693005> Utilisation actuelle du CPU",
             value=f"{round(statistics.mean(psutil.getloadavg()),1)}",
             inline=True,
         )
         # guild 1 is special value
         message = await makeAsyncRequest("SELECT * FROM settings WHERE GuildId=1")
         if message.__len__() <= 0:
-            message = "No current message"
+            message = "Merci d'etre aussi nombreux tous les jours.\nEn route vers les 200 Membres."
         else:
             message = message[0][4]
-        embed.add_field(name="Message from creator", value=message)
+        embed.add_field(name="Message du créateur", value=message)
         await ctx.send(embed=embed)
 
     @commands.bot_has_permissions(send_messages=True)
-    @commands.command(brief="Get information to give to support team")
+    @commands.command(brief="Obtenir des informations à donner à l'équipe d'assistance")
     async def ticketinfo(self, ctx):
         text = ""
-        text += f"Your guild id is: {ctx.guild.id}\n"
+        text += f"Votre identifiant de guilde est : {ctx.guild.id}\n"
         permissions = ctx.channel.permissions_for(ctx.guild.me)
-        text += f"My current permissions in current channel are: {permissions.value}\n"
-        text += f"Is using slash commands?: {True if ctx.interaction is not None else False}"
+        text += f"Mes permissions actuelles dans le canal actuel sont : {permissions.value}\n"
+        text += f"Est-ce que l'utilisation des commandes slash est.. : {True if ctx.interaction is not None else False}"
         await ctx.send(discord.utils.escape_mentions(text))
 
 
