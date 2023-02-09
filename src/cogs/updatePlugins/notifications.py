@@ -34,7 +34,7 @@ class ServerStatus(Enum):
 
 class NotificationsPlugin:
     def __init__(self, updater) -> None:
-        print("Initiation du plugin notifications!")
+        print("Initialisation du plugin de notification!")
         # if true than the plugin will modify the record
         # for DB so all mutable plugins will be ran one-by-one and not concurrently
         # (cuz I don't want to mess with syncing of all changes)
@@ -74,7 +74,7 @@ class NotificationsPlugin:
             self.updater.bot,
         )
         await sendToMe(
-            f"Sent {self.sentNotifications}/{self.notificationsCache.__len__()} notifications\nRaisons: {str(self.reasons)}",
+            f"Sent {self.sentNotifications}/{self.notificationsCache.__len__()} notifications\nReasons: {str(self.reasons)}",
             self.updater.bot,
         )
         # reset sent flag for all notifications records
@@ -117,7 +117,7 @@ class NotificationsPlugin:
         if status == ServerStatus.SERVER_WENT_DOWN:
             # create embed
             embed = discord.Embed(
-                title=f"La carte {await stripVersion(updateResult.cachedServer)} s'est arrêtée!",
+                title=f"La carte {await stripVersion(updateResult.cachedServer)} est arrétée!",
                 timestamp=self.time.utcnow(),
                 color=discord.Colour.red(),
             )
@@ -150,7 +150,7 @@ class NotificationsPlugin:
                 # set reason to went up if there is no reason
                 # else set it to reason whe update failed
                 reason = (
-                    "démarre"
+                    "S'est arrétée"
                     if updateResult.reason == None
                     else updateResult.reason.reason
                 )
@@ -163,7 +163,7 @@ class NotificationsPlugin:
                 #await sendToMe(i, self.updater.bot)
                 # if channel is not found
                 if channel == None:
-                    await sendToMe(f"Salon {i[1]} n'a pas été trouver!", self.updater.bot)
+                    await sendToMe(f"Salon {i[1]} introuvable!", self.updater.bot)
                     # delete the record (in background)s
                     asyncio.create_task(
                         self.updater.makeAsyncRequest(
